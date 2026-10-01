@@ -1,0 +1,2822 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Winter Arc – 90 Day Challenge | Pure Discipline Tracker</title>
+  <meta name="description" content="Master your 90-Day Winter Arc with daily habit tracking, complete weekday workout routines, form guides, and visual 90-day progress heatmap.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    /* ==========================================================================
+       CSS VARIABLES & THEMES (WINTER ARC DESIGN SYSTEM)
+       ========================================================================== */
+    :root {
+      /* Dark Theme (Default - Deep Frost & Ember Arc) */
+      --bg-base: #060a12;
+      --bg-radial: radial-gradient(circle at 50% 0%, #0d1e38 0%, #060a12 70%);
+      --surface-1: rgba(13, 23, 42, 0.75);
+      --surface-2: rgba(22, 38, 70, 0.6);
+      --surface-hover: rgba(30, 58, 102, 0.5);
+      --surface-glass: rgba(15, 29, 54, 0.7);
+      
+      --frost-border: rgba(147, 197, 253, 0.18);
+      --frost-border-hover: rgba(147, 197, 253, 0.4);
+      --frost-glow: 0 0 25px rgba(56, 189, 248, 0.18);
+      
+      --text-main: #f1f7ff;
+      --text-muted: #94a3b8;
+      --text-subtle: #64748b;
+      
+      /* Primary Icy Blues */
+      --ice-100: #e0f2fe;
+      --ice-300: #7dd3fc;
+      --ice-400: #38bdf8;
+      --ice-500: #0284c7;
+      
+      /* Warm Accent Color: The Fire Inside The Frost */
+      --accent-warm: #ff6b35;
+      --accent-warm-hover: #fa5a1e;
+      --accent-warm-soft: rgba(255, 107, 53, 0.15);
+      --accent-glow: 0 0 20px rgba(255, 107, 53, 0.4);
+      
+      /* Status Gradients */
+      --status-empty: rgba(255, 255, 255, 0.04);
+      --status-low: rgba(56, 189, 248, 0.25);
+      --status-mid: rgba(14, 165, 233, 0.6);
+      --status-full: linear-gradient(135deg, #ff6b35, #f59e0b);
+
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --radius-full: 9999px;
+      
+      --shadow-soft: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+      --transition-smooth: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      
+      --font-heading: 'Cinzel', serif;
+      --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    [data-theme="light"] {
+      --bg-base: #f0f5fa;
+      --bg-radial: radial-gradient(circle at 50% 0%, #e0effe 0%, #f0f5fa 75%);
+      --surface-1: rgba(255, 255, 255, 0.88);
+      --surface-2: rgba(241, 246, 253, 0.95);
+      --surface-hover: rgba(230, 240, 252, 0.95);
+      --surface-glass: rgba(255, 255, 255, 0.75);
+      
+      --frost-border: rgba(186, 214, 245, 0.65);
+      --frost-border-hover: rgba(56, 189, 248, 0.6);
+      --frost-glow: 0 0 25px rgba(2, 132, 199, 0.12);
+      
+      --text-main: #0c182c;
+      --text-muted: #475569;
+      --text-subtle: #94a3b8;
+      
+      --ice-100: #0c4a6e;
+      --ice-300: #0284c7;
+      --ice-400: #0369a1;
+      --ice-500: #075985;
+      
+      --accent-warm: #e65100;
+      --accent-warm-hover: #c94400;
+      --accent-warm-soft: rgba(230, 81, 0, 0.12);
+      --accent-glow: 0 0 20px rgba(230, 81, 0, 0.3);
+      
+      --status-empty: rgba(148, 163, 184, 0.15);
+      --status-low: rgba(56, 189, 248, 0.35);
+      --status-mid: rgba(2, 132, 199, 0.65);
+      --status-full: linear-gradient(135deg, #e65100, #f59e0b);
+      
+      --shadow-soft: 0 10px 30px -10px rgba(12, 24, 44, 0.08);
+    }
+
+    /* Reset & Base */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg-base);
+      background-image: var(--bg-radial);
+      background-attachment: fixed;
+      color: var(--text-main);
+      min-height: 100vh;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      position: relative;
+      overflow-x: hidden;
+      padding-bottom: 70px;
+    }
+
+    /* Background Ambient Frost Glow */
+    body::before {
+      content: "";
+      position: fixed;
+      top: -150px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: 400px;
+      background: radial-gradient(ellipse, rgba(56, 189, 248, 0.12), transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Canvas for subtle snowfall */
+    #snowCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.75;
+    }
+
+    .app-wrapper {
+      position: relative;
+      z-index: 2;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 24px 20px;
+    }
+
+    /* Accessibility Focus Outline */
+    :focus-visible {
+      outline: 2px solid var(--accent-warm);
+      outline-offset: 3px;
+    }
+
+    /* Buttons base */
+    button {
+      font-family: inherit;
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border-radius: var(--radius-md);
+      transition: var(--transition-smooth);
+      font-weight: 600;
+    }
+
+    button:active {
+      transform: scale(0.98);
+    }
+
+    /* ==========================================================================
+       TOP BAR & HEADER
+       ========================================================================== */
+    .top-controls {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .icon-btn {
+      background: var(--surface-1);
+      border: 1px solid var(--frost-border);
+      color: var(--text-main);
+      padding: 8px 14px;
+      border-radius: var(--radius-full);
+      font-size: 0.85rem;
+      backdrop-filter: blur(8px);
+    }
+
+    .icon-btn:hover {
+      background: var(--surface-hover);
+      border-color: var(--frost-border-hover);
+      color: var(--ice-300);
+    }
+
+    .icon-btn.active {
+      border-color: var(--accent-warm);
+      color: var(--accent-warm);
+    }
+
+    .hero-header {
+      text-align: center;
+      padding: 28px 24px 34px;
+      background: var(--surface-glass);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid var(--frost-border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-soft), var(--frost-glow);
+      margin-bottom: 28px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-header::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--ice-400), var(--accent-warm), var(--ice-400), transparent);
+    }
+
+    .badge-top {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--accent-warm-soft);
+      border: 1px solid rgba(255, 107, 53, 0.35);
+      color: var(--accent-warm);
+      padding: 4px 14px;
+      border-radius: var(--radius-full);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .hero-title {
+      font-family: var(--font-heading);
+      font-size: clamp(2.4rem, 5.5vw, 3.6rem);
+      font-weight: 900;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      background: linear-gradient(135deg, #ffffff 30%, var(--ice-300) 70%, #90caf9 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      line-height: 1.1;
+      margin-bottom: 10px;
+      text-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    }
+
+    [data-theme="light"] .hero-title {
+      background: linear-gradient(135deg, #0c182c 20%, #0369a1 80%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-tagline {
+      font-size: clamp(1rem, 2.5vw, 1.25rem);
+      font-weight: 600;
+      color: var(--text-muted);
+      letter-spacing: 0.5px;
+      margin-bottom: 24px;
+    }
+
+    .hero-tagline .fire-text {
+      color: var(--accent-warm);
+      font-weight: 700;
+    }
+
+    /* Hero Stats Dashboard */
+    .hero-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    .stat-card {
+      background: var(--surface-2);
+      border: 1px solid var(--frost-border);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      text-align: center;
+      transition: var(--transition-smooth);
+    }
+
+    .stat-card:hover {
+      border-color: var(--frost-border-hover);
+      transform: translateY(-2px);
+    }
+
+    .stat-card.highlight {
+      border-color: rgba(255, 107, 53, 0.4);
+      background: linear-gradient(180deg, var(--surface-2), var(--accent-warm-soft));
+    }
+
+    .stat-label {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-muted);
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .stat-value {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .stat-value .unit {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    /* Overall 90-Day Progress Bar */
+    .arc-progress-wrap {
+      margin-top: 24px;
+      text-align: left;
+    }
+
+    .progress-labels {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .progress-bar-track {
+      width: 100%;
+      height: 12px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--frost-border);
+      border-radius: var(--radius-full);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--ice-400), var(--accent-warm));
+      border-radius: var(--radius-full);
+      transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+    }
+
+    .progress-bar-fill::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 10px;
+      background: rgba(255, 255, 255, 0.8);
+      filter: blur(3px);
+    }
+
+    /* ==========================================================================
+       TABS NAVIGATION
+       ========================================================================== */
+    .tabs-nav {
+      display: flex;
+      gap: 10px;
+      background: var(--surface-1);
+      border: 1px solid var(--frost-border);
+      padding: 6px;
+      border-radius: var(--radius-lg);
+      margin-bottom: 24px;
+      backdrop-filter: blur(10px);
+    }
+
+    .tab-btn {
+      flex: 1;
+      padding: 12px 18px;
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      font-weight: 700;
+      border-radius: var(--radius-md);
+      transition: var(--transition-smooth);
+    }
+
+    .tab-btn svg {
+      width: 18px;
+      height: 18px;
+      transition: transform 0.2s ease;
+    }
+
+    .tab-btn:hover {
+      color: var(--text-main);
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .tab-btn.active {
+      background: var(--surface-2);
+      color: var(--ice-300);
+      border: 1px solid var(--frost-border-hover);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    [data-theme="light"] .tab-btn.active {
+      background: #ffffff;
+      color: var(--ice-500);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    }
+
+    /* Tab Panes */
+    .tab-pane {
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .tab-pane.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ==========================================================================
+       TAB 1: DAILY HABITS
+       ========================================================================== */
+    .day-selector-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      background: var(--surface-1);
+      border: 1px solid var(--frost-border);
+      border-radius: var(--radius-lg);
+      padding: 16px 20px;
+      margin-bottom: 22px;
+      backdrop-filter: blur(10px);
+    }
+
+    .day-nav-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .day-nav-btn {
+      background: var(--surface-2);
+      border: 1px solid var(--frost-border);
+      color: var(--text-main);
+      padding: 8px 14px;
+      border-radius: var(--radius-md);
+      font-size: 0.88rem;
+    }
+
+    .day-nav-btn:hover:not(:disabled) {
+      background: var(--surface-hover);
+      border-color: var(--frost-border-hover);
+      color: var(--ice-300);
+    }
+
+    .day-nav-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .current-day-badge {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .current-day-badge .day-title {
+      font-family: var(--font-heading);
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: var(--ice-300);
+      letter-spacing: 1px;
+    }
+
+    .current-day-badge .date-sub {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .day-actions-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* Day Completion Summary banner */
+    .day-completion-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      background: var(--surface-glass);
+      border: 1px solid var(--frost-border);
+      border-radius: var(--radius-md);
+      padding: 16px 20px;
+      margin-bottom: 20px;
+      backdrop-filter: blur(8px);
+    }
+
+    .completion-text {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .completion-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .completion-subtitle {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .completion-mini-bar {
+      width: 140px;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: var(--radius-full);
+      overflow: hidden;
+      margin-top: 6px;
+    }
+
+    .completion-mini-fill {
+      height: 100%;
+      background: var(--accent-warm);
+      border-radius: var(--radius-full);
+      transition: width 0.3s ease;
+    }
+
+    /* Habits List */
+    .habits-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+
+    .habit-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      background: var(--surface-1);
+      border: 1px solid var(--frost-border);
+      border-radius: var(--radius-md);
+      padding: 14px 18px;
+      transition: var(--transition-smooth);
+      position: relative;
+    }
+
+    .habit-item:hover {
+      background: var(--surface-hover);
+      border-color: var(--frost-border-hover);
+      transform: translateX(3px);
+    }
+
+    .habit-item.completed {
+      background: rgba(14, 165, 233, 0.08);
+      border-color: rgba(56, 189, 248, 0.35);
+    }
+
+    [data-theme="light"] .habit-item.completed {
+      background: rgba(2, 132, 199, 0.07);
+      border-color: rgba(2, 132, 199, 0.35);
+    }
+
+    .habit-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex: 1;
+      cursor: pointer;
+    }
+
+    /* Custom Checkbox */
+    .custom-checkbox {
+      width: 24px;
+      height: 24px;
+      min-width: 24px;
+      border: 2px solid var(--frost-border-hover);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--surface-2);
+      transition: var(--transition-smooth);
+    }
+
+    .habit-item.completed .custom-checkbox {
+      background: var(--accent-warm);
+      border-color: var(--accent-warm);
+      color: #ffffff;
+      box-shadow: 0 0 10px rgba(255, 107, 53, 0.4);
+    }
+
+    .custom-checkbox svg {
+      width: 14px;
+      height: 14px;
+      opacity: 0;
+      transform: scale(0.6);
+      transition: var(--transition-smooth);
+    }
+
+    .habit-item.completed .custom-checkbox svg {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .habit-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .habit-name {
+      font-size: 0.98rem;
+      font-weight: 600;
+      color: var(--text-main);
+      transition: var(--transition-smooth);
+    }
+
+    .habit-item.completed .habit-name {
+      text-decoration: line-through;
+      color: var(--text-muted);
+    }
+
+    .habit-index {
+      font-size: 0.72rem;
+      color: var(--ice-400);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .delete-habit-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-subtle);
+      padding: 6px;
+      border-radius: var(--radius-sm);
+      opacity: 0.6;
+      transition: var(--transition-smooth);
+    }
+
+    .delete-habit-btn:hover {
+      color: #ef4444;
+      background: rgba(239, 68, 68, 0.1);
+      opacity: 1;
+    }
+
+    .delete-habit-btn svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* Add Habit Form */
+    .add-habit-card {
+      background: var(--surface-glass);
+      border: 1px dashed var(--frost-border);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      backdrop-filter: blur(8px);
+    }
+
+    .habit-input {
+      flex: 1;
+      background: var(--surface-2);
+      border: 1px solid var(--frost-border);
+      color: var(--text-main);
+      padding: 11px 16px;
+      border-radius: var(--radius-md);
+      font-size: 0.92rem;
+      font-family: inherit;
+    }
+
+    .habit-input:focus {
+      outline: none;
+      border-color: var(--accent-warm);
+    }
+
+    .habit-input::placeholder {
+      color: var(--text-subtle);
+    }
+
+    .btn-warm {
+      background: var(--accent-warm);
+      color: #ffffff;
+      padding: 11px 20px;
+      border-radius: var(--radius-md);
+      font-size: 0.9rem;
+      font-weight: 700;
+      box-shadow: 0 4px 15px rgba(255, 107, 53, 0.25);
+    }
+
+    .btn-warm:hover {
+      background: var(--accent-warm-hover);
+      box-shadow: 0 4px 20px rgba(255, 107, 53, 0.4);
+    }
+
+    /* ==========================================================================
+       TAB 2: WORKOUT PLAN
+       ========================================================================== */
+    .workout-header-card {
+      background: var(--surface-1);
+      border: 1px solid var(--frost-border);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      margin-bottom: 22px;
+      backdrop-filter: blur(10px);
+    }
+
+    .weekday-pills-row {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+      scrollbar-width: thin;
+    }
+
+    .weekday-btn {
+      flex: 1;
+      min-width: 90px;
+      padding: 10px 12px;
+      background: var(--surface-2);
+      border: 1px solid var(--frost-border);
+      border-radius: var(--radius-md);
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+    }
+
+    .weekday-btn .day-abbr {
+      font-weight: 800;
+      text-transform: uppercase;
+      font-size: 0.9rem;
+    }
+
+    .weekday-btn .day-focus-label {
+      font-size: 0.72rem;
+      font-weight: 500;
+      color: var(--text-subtle);
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      max-width: 80px;
+    }
+
+    .weekday-btn:hover {
+      border-color: var(--frost-border-hover);
+      color: var(--text-main);
+    }
+
+    .weekday-btn.active {
+      background: linear-gradient(135deg, rgba(2, 132, 199, 0.25), rgba(255, 107, 53, 0.2));
+      border-color: var(--accent-warm);
+      color: var(--text-main);
+      box-shadow: 0 0 15px rgba(255, 107, 53, 0.25);
+    }
+
+    .weekday-btn.active .day-focus-label {
+      color: var(--accent-warm);
+      font-weight: 700;
+    }
+
+    /* Selected Day Workout Focus Banner */
+    .workout-focus-banner {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-top: 18px;
+      padding-top: 16px;
+      border-top: 1px solid var(--frost-border);
+    }
+
+    .focus-text-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .focus-icon-box {
+      width: 44px;
+      height: 44px;
+      background: var(--accent-warm-soft);
+      border: 1px solid rgba(255, 107, 53, 0.3);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent-warm);
+    }
+
+    .focus-title {
+      font-family: var(--font-heading);
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: var(--text-main);
+      letter-spacing: 0.5px;
+    }
+
+    .focus-subtitle {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    /* Workout Timer / Rest Tool */
+    .workout-timer-box {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--surface-2);
+      border: 1px solid var(--frost-border);
+      padding: 8px 16px;
+      border-radius: var(--radius-full);
+    }
+
+    .timer-display {
+      font-family: monospace;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--ice-300);
+      min-width: 50px;
+      text-align: center;
+    }
+
+    .timer-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-main);
+      padding: 4px;
+      border-radius: var(--radius-full);
+      display: inline-flex;
+    }
+
+    .timer-btn:hover {
+      color: var(--accent-warm);
+    }
+
+    /* Quick Preset Buttons */
+    .preset-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+      padding: 12px 18px;
+      background: var(--surface-glass);
+      border: 1px solid var(--frost-border);
+      border-radius: var(--radius-md);
+    }
+
+    .preset-label {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--ice-300);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .preset-chip {
+      background: var(--surface-2);
+      border: 1px solid var(--frost-border);
+      color: var(--text-main);
+      font-size: 0.82rem;
+      padding: 6px 12px;
+      border-radius: var(--radius-full);
+    }
+
+    .preset-chip:hover {
+      border-color: var(--ice-400);
+      background: var(--surface-hover);
+      color: var(--ice-300);
+    }
+
+    /* Exercise List */
+    .exercises-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .exercise-card {
+      background: var(--surface-1);
+      border: 1px solid var(--frost-border);
+      border-radius: var(--radius-md);
+      padding: 16px 18px;
+      transition: var(--transition-smooth);
+    }
+
+    .exercise-card:hover {
+      border-color: var(--frost-border-hover);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .exercise-card.completed {
+      background: rgba(14, 165, 233, 0.06);
+      border-color: rgba(56, 189, 248, 0.35);
+    }
+
+    .exercise-main-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .exercise-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex: 1;
+      min-width: 220px;
+    }
+
+    .exercise-title-group {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .exercise-name {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .exercise-card.completed .exercise-name {
+      text-decoration: line-through;
+      color: var(--text-muted);
+    }
+
+    .exercise-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.76rem;
+    }
+
+    .meta-tag {
+      background: rgba(255, 255, 255, 0.06);
+      padding: 2px 8px;
+      border-radius: var(--radius-sm);
+      color: var(--ice-300);
+      font-weight: 600;
+    }
+
+    .exercise-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-action-small {
+      background: var(--surface-2);
+      border: 1px solid var(--frost-border);
+      color: var(--text-main);
+      padding: 6px 12px;
+      border-radius: var(--radius-md);
+      font-size: 0.78rem;
+      font-weight: 600;
+    }
+
+    .btn-action-small:hover {
+      background: var(--surface-hover);
+      border-color: var(--ice-400);
+      color: var(--ice-300);
+    }
+
+    .btn-action-small.video-btn {
+      color: var(--accent-warm);
+      border-color: rgba(255, 107, 53, 0.3);
+    }
+
+    .btn-action-small.video-btn:hover {
+      background: var(--accent-warm-soft);
+      border-color: var(--accent-warm);
+    }
+
+    /* Accordion "How to" Details */
+    .exercise-details {
+      display: none;
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px dashed var(--frost-border);
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.55;
+      animation: fadeIn 0.2s ease;
+    }
+
+    .exercise-details.open {
+      display: block;
+    }
+
+    .form-tip-box {
+      background: var(--surface-2);
+      border-left: 3px solid var(--ice-400);
+      padding: 10px 14px;
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      margin-top: 8px;
+    }
+
+    .form-tip-box strong {
+      color: var(--ice-300);
+    }
+
+    /* Add Exercise Form */
+    .add-exercise-panel {
+      background: var(--surface-glass);
+      border: 1px dashed var(--frost-border);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      margin-top: 24px;
+    }
+
+    .add-exercise-title {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--ice-300);
+    }
+
+    .add-exercise-form {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+    }
+
+    .add-exercise-form .full-width {
+      grid-column: 1 / -1;
+    }
+
+    /* ==========================================================================
+       TAB 3: 90-DAY PROGRESS GRID
+       ========================================================================== */
+    .progress-controls-card {
+      background: var(--surface-1);
+      border: 1px solid var(--frost-border);
+      border-radius: var(--radius-lg);
+      padding: 22px;
+      margin-bottom: 24px;
+      backdrop-filter: blur(10px);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .date-config-group {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .date-label {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .date-input {
+      background: var(--surface-2);
+      border: 1px solid var(--frost-border);
+      color: var(--text-main);
+      padding: 8px 14px;
+      border-radius: var(--radius-md);
+      font-family: inherit;
+      font-size: 0.9rem;
+    }
+
+    .reset-btn {
+      background: rgba(239, 68, 68, 0.12);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      color: #ef4444;
+      padding: 9px 18px;
+      border-radius: var(--radius-md);
+      font-size: 0.85rem;
+    }
+
+    .reset-btn:hover {
+      background: rgba(239, 68, 68, 0.25);
+      border-color: #ef4444;
+    }
+
+    /* Legend */
+    .legend-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 20px;
+      padding: 12px 18px;
+      background: var(--surface-glass);
+      border: 1px solid var(--frost-border);
+      border-radius: var(--radius-md);
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .legend-swatch {
+      width: 14px;
+      height: 14px;
+      border-radius: 4px;
+      border: 1px solid var(--frost-border);
+    }
+
+    .swatch-empty { background: var(--status-empty); }
+    .swatch-low { background: var(--status-low); border-color: rgba(56, 189, 248, 0.5); }
+    .swatch-mid { background: var(--status-mid); border-color: rgba(14, 165, 233, 0.8); }
+    .swatch-full { background: var(--status-full); border-color: var(--accent-warm); }
+
+    /* The 90-Day Grid */
+    .grid-90 {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(68px, 1fr));
+      gap: 10px;
+      margin-bottom: 30px;
+    }
+
+    .day-cell {
+      aspect-ratio: 1;
+      background: var(--surface-1);
+      border: 1px solid var(--frost-border);
+      border-radius: var(--radius-md);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      cursor: pointer;
+      position: relative;
+      transition: var(--transition-smooth);
+      padding: 6px;
+    }
+
+    .day-cell:hover {
+      transform: translateY(-3px) scale(1.04);
+      border-color: var(--ice-400);
+      z-index: 2;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+    }
+
+    .day-cell.current-day-ring {
+      border: 2px solid var(--ice-300);
+      box-shadow: 0 0 15px rgba(56, 189, 248, 0.6);
+    }
+
+    .day-cell .cell-number {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    .day-cell .cell-pct {
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: var(--text-subtle);
+    }
+
+    /* Cell status classes */
+    .day-cell.status-empty {
+      background: var(--status-empty);
+    }
+
+    .day-cell.status-low {
+      background: var(--status-low);
+      border-color: rgba(56, 189, 248, 0.4);
+    }
+    .day-cell.status-low .cell-pct {
+      color: var(--ice-300);
+    }
+
+    .day-cell.status-mid {
+      background: var(--status-mid);
+      border-color: rgba(14, 165, 233, 0.7);
+    }
+    .day-cell.status-mid .cell-pct {
+      color: #ffffff;
+    }
+
+    .day-cell.status-full {
+      background: var(--status-full);
+      border-color: var(--accent-warm);
+      box-shadow: 0 0 14px rgba(255, 107, 53, 0.45);
+    }
+    .day-cell.status-full .cell-number,
+    .day-cell.status-full .cell-pct {
+      color: #ffffff;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+    }
+
+    .cell-star {
+      position: absolute;
+      top: 3px;
+      right: 4px;
+      font-size: 0.65rem;
+    }
+
+    /* Modal for Video / Exercise / Reset */
+    .modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.82);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+      padding: 16px;
+    }
+
+    .modal-backdrop.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-card {
+      background: var(--surface-1);
+      border: 1px solid var(--frost-border);
+      border-radius: var(--radius-lg);
+      max-width: 540px;
+      width: 100%;
+      padding: 24px;
+      box-shadow: var(--shadow-soft), var(--frost-glow);
+      transform: scale(0.95);
+      transition: transform 0.25s ease;
+    }
+
+    .modal-backdrop.open .modal-card {
+      transform: scale(1);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .modal-title {
+      font-family: var(--font-heading);
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    .modal-close-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      padding: 6px;
+      border-radius: var(--radius-full);
+    }
+
+    .modal-close-btn:hover {
+      color: var(--text-main);
+      background: var(--surface-2);
+    }
+
+    .modal-body {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+    }
+
+    /* Confetti celebration container */
+    #confettiCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1000;
+    }
+
+    /* Mobile Responsive adjustments */
+    @media (max-width: 640px) {
+      .app-wrapper {
+        padding: 16px 12px;
+      }
+      .hero-header {
+        padding: 20px 16px;
+      }
+      .tabs-nav {
+        flex-direction: row;
+        gap: 6px;
+      }
+      .tab-btn {
+        padding: 10px 8px;
+        font-size: 0.8rem;
+        gap: 4px;
+      }
+      .tab-btn span {
+        display: inline-block;
+      }
+      .grid-90 {
+        grid-template-columns: repeat(auto-fill, minmax(54px, 1fr));
+        gap: 6px;
+      }
+      .day-selector-bar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .day-nav-group, .day-actions-group {
+        justify-content: space-between;
+      }
+      .hero-stats-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+  </style>
+</head>
+<body data-theme="dark">
+  <!-- Snowfall Background Canvas -->
+  <canvas id="snowCanvas"></canvas>
+  <!-- Confetti Canvas for 100% Celebration -->
+  <canvas id="confettiCanvas"></canvas>
+
+  <div class="app-wrapper">
+    <!-- Top Utility Controls -->
+    <header class="top-controls">
+      <button id="toggleSnowBtn" class="icon-btn active" title="Toggle Snowfall Animation" aria-label="Toggle Snowfall">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        <span id="snowStatusText">Snow: On</span>
+      </button>
+
+      <button id="themeToggleBtn" class="icon-btn" title="Toggle Light / Dark Mode" aria-label="Toggle Theme">
+        <svg id="themeIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <!-- Moon Icon (Dark Mode active) -->
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+        <span id="themeText">Dark</span>
+      </button>
+    </header>
+
+    <!-- HEADER SECTION -->
+    <header class="hero-header">
+      <div class="badge-top">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        Winter Arc Protocol
+      </div>
+      <h1 class="hero-title">Winter Arc</h1>
+      <p class="hero-tagline">90 days of pure discipline. <span class="fire-text">No excuses.</span></p>
+
+      <!-- Stats Grid -->
+      <div class="hero-stats-grid">
+        <div class="stat-card highlight">
+          <div class="stat-label">Arc Timeline</div>
+          <div class="stat-value" id="currentDayStat">Day 1 <span class="unit">/ 90</span></div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-label">Perfect Days</div>
+          <div class="stat-value" id="perfectDaysStat">0 <span class="unit">days</span></div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-label">Current Streak</div>
+          <div class="stat-value" id="streakStat">0 <span class="unit">🔥</span></div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-label">Total Completion</div>
+          <div class="stat-value" id="totalPctStat">0<span class="unit">%</span></div>
+        </div>
+      </div>
+
+      <!-- Main Progress Bar -->
+      <div class="arc-progress-wrap">
+        <div class="progress-labels">
+          <span id="progressSummaryLabel">Challenge Progress: Day 1 of 90</span>
+          <span id="progressPercentLabel">0% Complete</span>
+        </div>
+        <div class="progress-bar-track" role="progressbar" aria-valuemin="0" aria-valuemax="90" aria-valuenow="1" id="progressBarTrack">
+          <div class="progress-bar-fill" id="progressBarFill" style="width: 1.1%;"></div>
+        </div>
+      </div>
+    </header>
+
+    <!-- TABS NAVIGATION -->
+    <nav class="tabs-nav" aria-label="Main Challenge Navigation">
+      <button class="tab-btn active" data-tab="tab-habits" id="tabBtnHabits">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        <span>Daily Habits</span>
+      </button>
+
+      <button class="tab-btn" data-tab="tab-workout" id="tabBtnWorkout">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 5v14M18 5v14M2 9v6M22 9v6M6 12h12"/></svg>
+        <span>Workout Plan</span>
+      </button>
+
+      <button class="tab-btn" data-tab="tab-progress" id="tabBtnProgress">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        <span>90-Day Progress</span>
+      </button>
+    </nav>
+
+    <!-- ==========================================================================
+         TAB 1: DAILY HABITS
+         ========================================================================== -->
+    <section id="tab-habits" class="tab-pane active" aria-labelledby="tabBtnHabits">
+      <!-- Day Selector Controls -->
+      <div class="day-selector-bar">
+        <div class="day-nav-group">
+          <button id="prevDayBtn" class="day-nav-btn" aria-label="Previous Day">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+            Prev Day
+          </button>
+          
+          <div class="current-day-badge">
+            <span class="day-title" id="activeDayTitle">Day 1</span>
+            <span class="date-sub" id="activeDayDate">Day 1 of 90</span>
+          </div>
+
+          <button id="nextDayBtn" class="day-nav-btn" aria-label="Next Day">
+            Next Day
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+          </button>
+        </div>
+
+        <div class="day-actions-group">
+          <button id="jumpTodayBtn" class="icon-btn" title="Jump to Active Day">Jump to Today</button>
+          <button id="markAllDayBtn" class="icon-btn" title="Mark All Habits Done for Selected Day">Check All</button>
+        </div>
+      </div>
+
+      <!-- Day Completion Banner -->
+      <div class="day-completion-card">
+        <div class="completion-text">
+          <div class="completion-title" id="dayCompletionTitle">0 of 15 Habits Completed</div>
+          <div class="completion-subtitle" id="dayCompletionSubtitle">Lock in. No compromises today.</div>
+          <div class="completion-mini-bar">
+            <div class="completion-mini-fill" id="dayMiniFill" style="width: 0%;"></div>
+          </div>
+        </div>
+        <div id="dayPctDisplay" style="font-size: 1.4rem; font-weight: 800; color: var(--ice-300);">0%</div>
+      </div>
+
+      <!-- List of 15 Pre-filled & Custom Habits -->
+      <div class="habits-container" id="habitsList" role="list">
+        <!-- Rendered dynamically by JavaScript -->
+      </div>
+
+      <!-- Add New Custom Habit -->
+      <form id="addHabitForm" class="add-habit-card">
+        <input type="text" id="newHabitInput" class="habit-input" placeholder="Add custom daily habit (e.g. Cold shower, Meditation)..." required maxlength="100">
+        <button type="submit" class="btn-warm">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
+          Add Habit
+        </button>
+      </form>
+    </section>
+
+    <!-- ==========================================================================
+         TAB 2: WORKOUT PLAN
+         ========================================================================== -->
+    <section id="tab-workout" class="tab-pane" aria-labelledby="tabBtnWorkout">
+      <div class="workout-header-card">
+        <!-- Weekday Selector (Mon - Sun) -->
+        <div class="weekday-pills-row" id="weekdayPills" role="tablist">
+          <button class="weekday-btn active" data-day="monday" role="tab" aria-selected="true">
+            <span class="day-abbr">Mon</span>
+            <span class="day-focus-label">Full Body</span>
+          </button>
+          <button class="weekday-btn" data-day="tuesday" role="tab" aria-selected="false">
+            <span class="day-abbr">Tue</span>
+            <span class="day-focus-label">Legs</span>
+          </button>
+          <button class="weekday-btn" data-day="wednesday" role="tab" aria-selected="false">
+            <span class="day-abbr">Wed</span>
+            <span class="day-focus-label">Abs</span>
+          </button>
+          <button class="weekday-btn" data-day="thursday" role="tab" aria-selected="false">
+            <span class="day-abbr">Thu</span>
+            <span class="day-focus-label">Arms & Chest</span>
+          </button>
+          <button class="weekday-btn" data-day="friday" role="tab" aria-selected="false">
+            <span class="day-abbr">Fri</span>
+            <span class="day-focus-label">Abs & Arms</span>
+          </button>
+          <button class="weekday-btn" data-day="saturday" role="tab" aria-selected="false">
+            <span class="day-abbr">Sat</span>
+            <span class="day-focus-label">Legs & Arms</span>
+          </button>
+          <button class="weekday-btn" data-day="sunday" role="tab" aria-selected="false">
+            <span class="day-abbr">Sun</span>
+            <span class="day-focus-label">Rest / Walk</span>
+          </button>
+        </div>
+
+        <!-- Selected Day Focus Details & Built-in Rest Timer -->
+        <div class="workout-focus-banner">
+          <div class="focus-text-wrap">
+            <div class="focus-icon-box">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 5v14M18 5v14M2 9v6M22 9v6M6 12h12"/></svg>
+            </div>
+            <div>
+              <div class="focus-title" id="currentWorkoutTitle">Monday: Full Body</div>
+              <div class="focus-subtitle" id="currentWorkoutDesc">Targeting every major muscle group for total conditioning.</div>
+            </div>
+          </div>
+
+          <!-- Rest Timer / Stopwatch Tool -->
+          <div class="workout-timer-box">
+            <span style="font-size: 0.78rem; text-transform: uppercase; color: var(--text-muted); font-weight: 700;">Rest Timer:</span>
+            <span class="timer-display" id="restTimerDisplay">00:45</span>
+            <button id="toggleTimerBtn" class="timer-btn" title="Start/Pause 45s Rest Timer">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            </button>
+            <button id="resetTimerBtn" class="timer-btn" title="Reset Timer">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Add Workout Type Presets -->
+      <div class="preset-toolbar">
+        <span class="preset-label">Quick Add Presets:</span>
+        <button class="preset-chip" data-preset="runwalk">+ Run / Walk</button>
+        <button class="preset-chip" data-preset="yoga">+ Yoga Session</button>
+        <button class="preset-chip" data-preset="stretching">+ Deep Stretching</button>
+        <button class="preset-chip" data-preset="cardio">+ HIIT Cardio</button>
+      </div>
+
+      <!-- Exercise Checklist Grid -->
+      <div class="exercises-grid" id="exercisesList">
+        <!-- Rendered dynamically -->
+      </div>
+
+      <!-- Add Custom Exercise to this Day -->
+      <div class="add-exercise-panel">
+        <div class="add-exercise-title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+          Add Custom Exercise to <span id="addExerciseDayName" style="color: var(--accent-warm);">Monday</span>
+        </div>
+        <form id="addExerciseForm" class="add-exercise-form">
+          <input type="text" id="exNameInput" class="habit-input" placeholder="Exercise name (e.g. Diamond Push-ups)" required>
+          <input type="text" id="exTargetInput" class="habit-input" placeholder="Target / Reps (e.g. 3 sets × 12 reps)">
+          <input type="text" id="exTipsInput" class="habit-input full-width" placeholder="Form tips (e.g. Keep elbows tucked, pause at the bottom for 1s)">
+          <div class="full-width" style="display: flex; justify-content: flex-end;">
+            <button type="submit" class="btn-warm">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
+              Add to Workout
+            </button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         TAB 3: 90-DAY PROGRESS
+         ========================================================================== -->
+    <section id="tab-progress" class="tab-pane" aria-labelledby="tabBtnProgress">
+      <!-- Controls & Start Date Setting -->
+      <div class="progress-controls-card">
+        <div class="date-config-group">
+          <label for="startDatePicker" class="date-label">Challenge Start Date:</label>
+          <input type="date" id="startDatePicker" class="date-input">
+          <span style="font-size: 0.82rem; color: var(--ice-400); font-weight: 600;" id="calcDaySpan">Active Day: Day 1</span>
+        </div>
+
+        <div style="display: flex; gap: 10px; align-items: center;">
+          <button id="exportDataBtn" class="icon-btn" title="Backup your progress to a file">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+            Export
+          </button>
+          <button id="resetProgressBtn" class="reset-btn">Reset All Progress</button>
+        </div>
+      </div>
+
+      <!-- Completion Color Legend -->
+      <div class="legend-row">
+        <span style="font-size: 0.82rem; font-weight: 700; color: var(--text-main); margin-right: 6px;">Status:</span>
+        <div class="legend-item">
+          <div class="legend-swatch swatch-empty"></div>
+          <span>None (0%)</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-swatch swatch-low"></div>
+          <span>Started (1–49%)</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-swatch swatch-mid"></div>
+          <span>Half+ (50–99%)</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-swatch swatch-full"></div>
+          <span>Perfect Day (100% 🔥)</span>
+        </div>
+      </div>
+
+      <!-- 90 Day Grid Container -->
+      <div class="grid-90" id="daysGrid" role="grid" aria-label="90 Day Progress Matrix">
+        <!-- Rendered dynamically by JavaScript -->
+      </div>
+    </section>
+  </div>
+
+  <!-- Reusable Modal (Confirmations & Tutorials) -->
+  <div id="appModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modalTitle">Confirm Action</h3>
+        <button id="modalCloseBtn" class="modal-close-btn" aria-label="Close dialog">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="modal-body" id="modalBody">
+        Are you sure you want to proceed?
+      </div>
+      <div class="modal-actions" id="modalActions">
+        <button id="modalCancelBtn" class="icon-btn">Cancel</button>
+        <button id="modalConfirmBtn" class="btn-warm">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       JAVASCRIPT APPLICATION LOGIC
+       ========================================================================== -->
+  <script>
+    /**
+     * WINTER ARC - 90 DAY CHALLENGE TRACKER
+     * Single-file standalone architecture.
+     * Robust local storage with try/catch wrapping.
+     */
+
+    // --- DEFAULT DATA & EXERCISE DICTIONARY ---
+    const DEFAULT_HABITS = [
+      "Drink more water (3L+)",
+      "Eat less junk food",
+      "Sleep 7 to 8 hours",
+      "Workout 6x per week",
+      "Run or walk (monthly goal)",
+      "No phone during meals",
+      "20 minutes for yourself",
+      "Be grateful daily",
+      "Less anger",
+      "No excuses",
+      "Read 3 to 4 pages daily",
+      "Less distractions (Instagram etc.)",
+      "Nothing but 90 days of pure discipline",
+      "Master 1 skill",
+      "Wake up early"
+    ];
+
+    const EXERCISE_DATABASE = {
+      "squats": {
+        tips: "Stand shoulder-width apart, keep chest proud, push hips back and bend knees until thighs are parallel to ground. Drive through heels.",
+        reps: "3 sets × 20 reps",
+        target: "Quads & Glutes"
+      },
+      "push-ups": {
+        tips: "Keep core locked in a straight line from neck to heels. Lower until chest grazes the floor, elbows at 45° angle, press firmly back up.",
+        reps: "3 sets × 15 reps",
+        target: "Chest & Triceps"
+      },
+      "plank": {
+        tips: "Elbows under shoulders, squeeze abs and glutes, do not let lower back sag. Keep neck neutral and breathe steadily.",
+        reps: "3 sets × 45-60s hold",
+        target: "Core & Abdominals"
+      },
+      "crunches": {
+        tips: "Lie on back with knees bent. Contract abdominals to lift shoulder blades 2-3 inches off floor. Avoid pulling on your neck.",
+        reps: "3 sets × 25 reps",
+        target: "Upper Abs"
+      },
+      "jumping jacks": {
+        tips: "Stay light on the balls of your feet, swing arms overhead in a wide arc, maintain a quick, rhythmic tempo.",
+        reps: "3 sets × 40 reps",
+        target: "Full Body Cardio"
+      },
+      "lunges": {
+        tips: "Step forward keeping front knee behind your toes. Lower until both knees form 90° angles, then drive through front heel.",
+        reps: "3 sets × 12 reps/leg",
+        target: "Quads, Hamstrings & Glutes"
+      },
+      "wall sit": {
+        tips: "Back flat against wall, slide down until thighs are parallel to floor at 90°. Hold position without resting hands on knees.",
+        reps: "3 sets × 45-60s hold",
+        target: "Quads & Endurance"
+      },
+      "sit-ups": {
+        tips: "Anchor feet, engage core to bring torso up to knees with control. Lower back down smoothly without slamming.",
+        reps: "3 sets × 20 reps",
+        target: "Abdominals & Hip Flexors"
+      },
+      "butt kicks": {
+        tips: "Jog in place, pumping arms actively and driving heels straight up toward your glutes on every stride.",
+        reps: "3 sets × 40 reps",
+        target: "Hamstrings & Cardio"
+      },
+      "sumo squats": {
+        tips: "Take a wide stance with feet pointed out at 45°. Sit down deep, pushing knees outward in line with your toes.",
+        reps: "3 sets × 15-20 reps",
+        target: "Adductors & Glutes"
+      },
+      "side lunges": {
+        tips: "Take a wide step to one side, bend that knee and push hips back while keeping opposite leg straight. Return to center.",
+        reps: "3 sets × 12 reps/leg",
+        target: "Groin, Quads & Glutes"
+      },
+      "calf raises": {
+        tips: "Stand tall, press through the balls of both feet to raise heels as high as possible. Pause for 1 second at the peak.",
+        reps: "3 sets × 25 reps",
+        target: "Calves"
+      },
+      "leg raises": {
+        tips: "Lie flat on back with hands under glutes. Keeping legs straight, lift them up to 90° and lower slowly without letting feet touch the floor.",
+        reps: "3 sets × 15 reps",
+        target: "Lower Abs"
+      },
+      "donkey kicks": {
+        tips: "On all fours, kick one heel up toward ceiling with knee bent at 90°. Squeeze glute at top, keep hips square.",
+        reps: "3 sets × 15 reps/leg",
+        target: "Glutes"
+      },
+      "step up": {
+        tips: "Step onto a stable bench or chair with one foot, drive through heel to stand tall, then step down with control.",
+        reps: "3 sets × 12 reps/leg",
+        target: "Legs & Balance"
+      },
+      "glute kick back": {
+        tips: "From hands and knees or standing, extend leg straight back behind you, clenching the glute without over-arching lower back.",
+        reps: "3 sets × 15 reps/leg",
+        target: "Gluteus Maximus"
+      },
+      "narrow to wide squat": {
+        tips: "Perform a narrow stance squat, hop or step out into a wide squat, alternating each rep dynamically.",
+        reps: "3 sets × 16 reps",
+        target: "Total Leg Sculpt"
+      },
+      "squat jumps": {
+        tips: "Drop into a regular squat, then explode upward into a vertical jump. Land softly right back into squat position.",
+        reps: "3 sets × 12 reps",
+        target: "Explosive Power"
+      },
+      "squat to front lunge": {
+        tips: "Perform one squat, stand up, step directly into a front lunge with right leg, return, squat, then lunge left leg.",
+        reps: "3 sets × 10 combos",
+        target: "Legs & Coordination"
+      },
+      "(try) pistol squats": {
+        tips: "Single-leg squat with opposite leg extended in front. Lower as far as strength allows. Use a door frame or chair for assistance.",
+        reps: "3 sets × 5-8 reps/leg",
+        target: "Advanced Single-Leg Power"
+      },
+      "prisoner kneel to squat": {
+        tips: "Hands locked behind head. Lower one knee down to mat, then the other. Step back up one foot at a time into a deep squat hold.",
+        reps: "3 sets × 10 reps",
+        target: "Legs & Hip Mobility"
+      },
+      "(try) curtsy lunge": {
+        tips: "Step one leg backward and across behind the other leg as if doing a royal curtsy. Lower hips until front thigh is parallel.",
+        reps: "3 sets × 12 reps/leg",
+        target: "Outer Hips & Glutes"
+      },
+      "single v-tap": {
+        tips: "Lie back, lift torso and raise one straight leg to tap the toe with opposite hand in a single-side jackknife.",
+        reps: "3 sets × 14 reps/side",
+        target: "Abs & Obliques"
+      },
+      "bicycle crunch": {
+        tips: "Lie on back, hands lightly by ears. Bring right elbow to left knee while extending right leg, then switch in a pedaling cadence.",
+        reps: "3 sets × 30 total reps",
+        target: "Obliques & Rectus Abdominis"
+      },
+      "v-sit": {
+        tips: "Sit on floor, lift legs and lean torso back to form a 45° 'V' shape. Extend arms forward and maintain iron tension.",
+        reps: "3 sets × 30-45s hold",
+        target: "Deep Core & Balance"
+      },
+      "scissor cross": {
+        tips: "Lie flat, legs extended 6 inches off ground. Alternate crossing left ankle over right, then right over left briskly.",
+        reps: "3 sets × 40 pulses",
+        target: "Lower Abs & Hip Flexors"
+      },
+      "reverse crunch": {
+        tips: "Lie on back, knees bent. Use lower abdominals to curl knees in toward chest, rolling pelvis off floor.",
+        reps: "3 sets × 18 reps",
+        target: "Lower Abs"
+      },
+      "v-hold pulses": {
+        tips: "Hold the V-sit position and pulse your arms and torso up and down 2 inches without breaking core bracing.",
+        reps: "3 sets × 25 pulses",
+        target: "Core Endurance"
+      },
+      "bench dips (triceps)": {
+        tips: "Hands on edge of sturdy chair or bench behind you. Lower body by bending elbows to 90°, keep back close to bench, press back up.",
+        reps: "3 sets × 15 reps",
+        target: "Triceps & Shoulders"
+      },
+      "plank shoulder taps": {
+        tips: "In high plank position, tap your left shoulder with your right hand. Keep hips level and avoid twisting.",
+        reps: "3 sets × 24 total taps",
+        target: "Core & Anti-Rotation"
+      },
+      "mountain climbers": {
+        tips: "High plank position, drive knees alternately toward chest in a rapid running motion while maintaining a solid flat back.",
+        reps: "3 sets × 40 reps",
+        target: "Cardio & Core"
+      },
+      "burpee": {
+        tips: "Drop hands to floor, jump feet back to plank, drop chest to floor, push up, jump feet forward, leap up with arms overhead.",
+        reps: "3 sets × 12 reps",
+        target: "Full Body Conditioning"
+      },
+      "front plank": {
+        tips: "Standard plank on forearms and toes. Squeeze glutes, tuck pelvis, pull belly button inward toward spine.",
+        reps: "3 sets × 60s hold",
+        target: "Full Core Stability"
+      }
+    };
+
+    const DEFAULT_WORKOUT_PLANS = {
+      monday: {
+        title: "Monday (Full Body)",
+        desc: "Complete head-to-toe muscular engagement and conditioning.",
+        exercises: [
+          "Squats", "Push-ups", "Plank", "Crunches", "Jumping jacks",
+          "Lunges", "Wall sit", "Sit-ups", "Butt kicks"
+        ]
+      },
+      tuesday: {
+        title: "Tuesday (Legs)",
+        desc: "High volume lower body strength, glute activation & power.",
+        exercises: [
+          "Squats", "Sumo squats", "Side lunges", "Calf raises", "Wall sit",
+          "Leg raises", "Donkey kicks", "Step up", "Glute kick back",
+          "Jumping jacks", "Narrow to wide squat", "Squat jumps",
+          "Squat to front lunge", "(Try) pistol squats",
+          "Prisoner kneel to squat", "(Try) curtsy lunge"
+        ]
+      },
+      wednesday: {
+        title: "Wednesday (Abs)",
+        desc: "Deep core shred, obliques, and rotational endurance.",
+        exercises: [
+          "Single V-tap", "Bicycle crunch", "V-sit", "Scissor cross",
+          "Reverse crunch", "V-hold pulses"
+        ]
+      },
+      thursday: {
+        title: "Thursday (Arms & Chest)",
+        desc: "Push power, tricep definition and chest hypertrophy.",
+        exercises: [
+          "Push-ups", "Bench dips (triceps)", "Plank shoulder taps",
+          "Mountain climbers", "Burpee", "Front plank"
+        ]
+      },
+      friday: {
+        title: "Friday (Abs & Arms)",
+        desc: "Hyper-focused upper body & core superset.",
+        exercises: [
+          "Push-ups", "Bicycle crunch", "Bench dips (triceps)",
+          "V-sit", "Plank shoulder taps", "Reverse crunch",
+          "Burpee", "V-hold pulses"
+        ]
+      },
+      saturday: {
+        title: "Saturday (Legs & Arms)",
+        desc: "Athletic hybrid conditioning for maximum calorie burn.",
+        exercises: [
+          "Squats", "Push-ups", "Lunges", "Bench dips (triceps)",
+          "Squat jumps", "Plank shoulder taps", "Wall sit", "Mountain climbers"
+        ]
+      },
+      sunday: {
+        title: "Sunday (Rest & Active Recovery)",
+        desc: "Rest day with run or walk to reset mind and promote circulation.",
+        exercises: [
+          "Outdoor brisk walk or Zone 2 run (45 mins)",
+          "Full body mobility & hydration"
+        ]
+      }
+    };
+
+    // --- STORAGE STATE MANAGER ---
+    const STORAGE_KEY = "winter_arc_tracker_v1";
+
+    function loadState() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          return {
+            theme: parsed.theme || "dark",
+            snowEnabled: parsed.snowEnabled !== undefined ? parsed.snowEnabled : true,
+            startDate: parsed.startDate || getTodayISO(),
+            habits: parsed.habits || [...DEFAULT_HABITS],
+            // daysData maps dayIndex (1..90) -> array of completed habit names
+            daysData: parsed.daysData || {},
+            workoutPlans: parsed.workoutPlans || JSON.parse(JSON.stringify(DEFAULT_WORKOUT_PLANS)),
+            // completed workouts keyed by "day_weekday" or similar
+            completedWorkouts: parsed.completedWorkouts || {}
+          };
+        }
+      } catch (err) {
+        console.warn("Error reading state from localStorage:", err);
+      }
+
+      return {
+        theme: "dark",
+        snowEnabled: true,
+        startDate: getTodayISO(),
+        habits: [...DEFAULT_HABITS],
+        daysData: {},
+        workoutPlans: JSON.parse(JSON.stringify(DEFAULT_WORKOUT_PLANS)),
+        completedWorkouts: {}
+      };
+    }
+
+    function saveState() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
+      } catch (err) {
+        console.error("Error writing state to localStorage:", err);
+      }
+    }
+
+    // App Global State
+    let appState = loadState();
+    let currentSelectedDay = 1;
+    let currentSelectedWeekday = "monday";
+    let restTimerInterval = null;
+    let restTimerSeconds = 45;
+    let isTimerRunning = false;
+
+    // Helper Date Functions
+    function getTodayISO() {
+      const d = new Date();
+      return d.toISOString().split("T")[0];
+    }
+
+    function calculateDayOfArc(startDateStr) {
+      if (!startDateStr) return 1;
+      const start = new Date(startDateStr);
+      start.setHours(0, 0, 0, 0);
+      const now = new Date();
+      now.setHours(0, 0, 0, 0);
+      const diffTime = now - start;
+      const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24)) + 1;
+      if (diffDays < 1) return 1;
+      if (diffDays > 90) return 90;
+      return diffDays;
+    }
+
+    function getDateForDay(startDateStr, dayNum) {
+      if (!startDateStr) return "";
+      const d = new Date(startDateStr);
+      d.setDate(d.getDate() + (dayNum - 1));
+      return d.toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' });
+    }
+
+    // --- THEME & SNOWFALL CONTROLS ---
+    const themeToggleBtn = document.getElementById("themeToggleBtn");
+    const themeIcon = document.getElementById("themeIcon");
+    const themeText = document.getElementById("themeText");
+    const toggleSnowBtn = document.getElementById("toggleSnowBtn");
+    const snowStatusText = document.getElementById("snowStatusText");
+
+    function applyTheme(theme) {
+      document.body.setAttribute("data-theme", theme);
+      if (theme === "light") {
+        themeIcon.innerHTML = `<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>`;
+        themeText.textContent = "Light";
+      } else {
+        themeIcon.innerHTML = `<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>`;
+        themeText.textContent = "Dark";
+      }
+      appState.theme = theme;
+      saveState();
+    }
+
+    themeToggleBtn.addEventListener("click", () => {
+      const nextTheme = appState.theme === "dark" ? "light" : "dark";
+      applyTheme(nextTheme);
+    });
+
+    toggleSnowBtn.addEventListener("click", () => {
+      appState.snowEnabled = !appState.snowEnabled;
+      toggleSnowBtn.classList.toggle("active", appState.snowEnabled);
+      snowStatusText.textContent = appState.snowEnabled ? "Snow: On" : "Snow: Off";
+      saveState();
+    });
+
+    // --- SNOWFALL CANVAS ANIMATION ---
+    const snowCanvas = document.getElementById("snowCanvas");
+    const snowCtx = snowCanvas.getContext("2d");
+    let flakes = [];
+
+    function initSnow() {
+      resizeSnow();
+      flakes = [];
+      const count = window.innerWidth < 640 ? 35 : 70;
+      for (let i = 0; i < count; i++) {
+        flakes.push({
+          x: Math.random() * snowCanvas.width,
+          y: Math.random() * snowCanvas.height,
+          radius: Math.random() * 2.2 + 0.8,
+          speed: Math.random() * 0.9 + 0.3,
+          wind: Math.random() * 0.4 - 0.2,
+          opacity: Math.random() * 0.5 + 0.25
+        });
+      }
+    }
+
+    function resizeSnow() {
+      snowCanvas.width = window.innerWidth;
+      snowCanvas.height = window.innerHeight;
+    }
+    window.addEventListener("resize", resizeSnow);
+
+    function renderSnow() {
+      snowCtx.clearRect(0, 0, snowCanvas.width, snowCanvas.height);
+      if (appState.snowEnabled) {
+        snowCtx.fillStyle = appState.theme === "light" ? "rgba(100, 160, 220, 0.4)" : "rgba(220, 240, 255, 0.7)";
+        for (let f of flakes) {
+          snowCtx.beginPath();
+          snowCtx.arc(f.x, f.y, f.radius, 0, Math.PI * 2);
+          snowCtx.fill();
+
+          f.y += f.speed;
+          f.x += f.wind;
+          if (f.y > snowCanvas.height) {
+            f.y = -5;
+            f.x = Math.random() * snowCanvas.width;
+          }
+          if (f.x > snowCanvas.width) f.x = 0;
+          if (f.x < 0) f.x = snowCanvas.width;
+        }
+      }
+      requestAnimationFrame(renderSnow);
+    }
+
+    // --- CONFETTI CELEBRATION EFFECT ---
+    const confettiCanvas = document.getElementById("confettiCanvas");
+    const confettiCtx = confettiCanvas.getContext("2d");
+    let confettis = [];
+
+    function triggerConfetti() {
+      confettiCanvas.width = window.innerWidth;
+      confettiCanvas.height = window.innerHeight;
+      confettis = [];
+      const colors = ["#ff6b35", "#38bdf8", "#f59e0b", "#ffffff", "#0284c7"];
+      for (let i = 0; i < 90; i++) {
+        confettis.push({
+          x: window.innerWidth / 2,
+          y: window.innerHeight / 2,
+          vx: (Math.random() - 0.5) * 14,
+          vy: (Math.random() - 0.7) * 16,
+          size: Math.random() * 8 + 4,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          rotation: Math.random() * 360,
+          rotSpeed: (Math.random() - 0.5) * 10,
+          opacity: 1
+        });
+      }
+      renderConfetti();
+    }
+
+    function renderConfetti() {
+      confettiCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+      let alive = false;
+      for (let c of confettis) {
+        if (c.opacity > 0) {
+          alive = true;
+          c.x += c.vx;
+          c.y += c.vy;
+          c.vy += 0.35; // gravity
+          c.rotation += c.rotSpeed;
+          c.opacity -= 0.015;
+
+          confettiCtx.save();
+          confettiCtx.translate(c.x, c.y);
+          confettiCtx.rotate((c.rotation * Math.PI) / 180);
+          confettiCtx.fillStyle = c.color;
+          confettiCtx.globalAlpha = Math.max(0, c.opacity);
+          confettiCtx.fillRect(-c.size / 2, -c.size / 2, c.size, c.size * 0.7);
+          confettiCtx.restore();
+        }
+      }
+      if (alive) {
+        requestAnimationFrame(renderConfetti);
+      } else {
+        confettiCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+      }
+    }
+
+    // --- TAB SWITCHING LOGIC ---
+    const tabButtons = document.querySelectorAll(".tab-btn");
+    const tabPanes = document.querySelectorAll(".tab-pane");
+
+    function switchTab(tabId) {
+      tabButtons.forEach(btn => {
+        const isActive = btn.dataset.tab === tabId;
+        btn.classList.toggle("active", isActive);
+        btn.setAttribute("aria-selected", isActive);
+      });
+      tabPanes.forEach(pane => {
+        pane.classList.toggle("active", pane.id === tabId);
+      });
+
+      if (tabId === "tab-progress") {
+        renderDaysGrid();
+      }
+    }
+
+    tabButtons.forEach(btn => {
+      btn.addEventListener("click", () => switchTab(btn.dataset.tab));
+    });
+
+    // --- OVERALL STATS & PROGRESS CALCULATION ---
+    function updateOverallStats() {
+      const activeDay = calculateDayOfArc(appState.startDate);
+      document.getElementById("currentDayStat").innerHTML = `Day ${activeDay} <span class="unit">/ 90</span>`;
+      document.getElementById("calcDaySpan").textContent = `Active Day: Day ${activeDay}`;
+      
+      const totalHabitsCount = appState.habits.length;
+      let perfectDaysCount = 0;
+      let totalCompletedAllTime = 0;
+
+      for (let day = 1; day <= 90; day++) {
+        const completedList = appState.daysData[day] || [];
+        totalCompletedAllTime += completedList.length;
+        if (totalHabitsCount > 0 && completedList.length >= totalHabitsCount) {
+          perfectDaysCount++;
+        }
+      }
+
+      document.getElementById("perfectDaysStat").innerHTML = `${perfectDaysCount} <span class="unit">days</span>`;
+
+      // Calculate streak ending today or active day
+      let streak = 0;
+      for (let day = activeDay; day >= 1; day--) {
+        const completedList = appState.daysData[day] || [];
+        if (totalHabitsCount > 0 && completedList.length >= totalHabitsCount) {
+          streak++;
+        } else {
+          // If today isn't perfect yet, check if yesterday started a streak
+          if (day === activeDay) continue;
+          break;
+        }
+      }
+      document.getElementById("streakStat").innerHTML = `${streak} <span class="unit">🔥</span>`;
+
+      // Overall Progress: Day timeline %
+      const pctOfArc = Math.min(100, Math.round((activeDay / 90) * 100));
+      document.getElementById("totalPctStat").innerHTML = `${pctOfArc}<span class="unit">%</span>`;
+
+      document.getElementById("progressSummaryLabel").textContent = `Challenge Progress: Day ${activeDay} of 90`;
+      document.getElementById("progressPercentLabel").textContent = `${pctOfArc}% Timeline`;
+      document.getElementById("progressBarFill").style.width = `${Math.max(1, pctOfArc)}%`;
+      document.getElementById("progressBarTrack").setAttribute("aria-valuenow", activeDay);
+    }
+
+    // --- TAB 1: DAILY HABITS IMPLEMENTATION ---
+    const habitsListEl = document.getElementById("habitsList");
+    const activeDayTitle = document.getElementById("activeDayTitle");
+    const activeDayDate = document.getElementById("activeDayDate");
+    const prevDayBtn = document.getElementById("prevDayBtn");
+    const nextDayBtn = document.getElementById("nextDayBtn");
+    const jumpTodayBtn = document.getElementById("jumpTodayBtn");
+    const markAllDayBtn = document.getElementById("markAllDayBtn");
+    const dayCompletionTitle = document.getElementById("dayCompletionTitle");
+    const dayCompletionSubtitle = document.getElementById("dayCompletionSubtitle");
+    const dayMiniFill = document.getElementById("dayMiniFill");
+    const dayPctDisplay = document.getElementById("dayPctDisplay");
+    const addHabitForm = document.getElementById("addHabitForm");
+    const newHabitInput = document.getElementById("newHabitInput");
+
+    function renderDailyHabits() {
+      activeDayTitle.textContent = `Day ${currentSelectedDay}`;
+      activeDayDate.textContent = `${getDateForDay(appState.startDate, currentSelectedDay)} (Day ${currentSelectedDay} of 90)`;
+
+      prevDayBtn.disabled = currentSelectedDay <= 1;
+      nextDayBtn.disabled = currentSelectedDay >= 90;
+
+      const completedForDay = appState.daysData[currentSelectedDay] || [];
+      const total = appState.habits.length;
+      const count = completedForDay.length;
+      const pct = total === 0 ? 0 : Math.round((count / total) * 100);
+
+      dayCompletionTitle.textContent = `${count} of ${total} Habits Completed`;
+      dayMiniFill.style.width = `${pct}%`;
+      dayPctDisplay.textContent = `${pct}%`;
+
+      if (pct === 100) {
+        dayCompletionSubtitle.textContent = "🔥 Perfect Day! The Arc burns bright in you.";
+        dayPctDisplay.style.color = "var(--accent-warm)";
+      } else if (pct >= 50) {
+        dayCompletionSubtitle.textContent = "Over halfway there. Finish strong!";
+        dayPctDisplay.style.color = "var(--ice-400)";
+      } else if (pct > 0) {
+        dayCompletionSubtitle.textContent = "Momentum is building. Keep executing.";
+        dayPctDisplay.style.color = "var(--ice-300)";
+      } else {
+        dayCompletionSubtitle.textContent = "Lock in. No compromises today.";
+        dayPctDisplay.style.color = "var(--text-subtle)";
+      }
+
+      habitsListEl.innerHTML = "";
+
+      appState.habits.forEach((habitText, idx) => {
+        const isDone = completedForDay.includes(habitText);
+        const item = document.createElement("div");
+        item.className = `habit-item ${isDone ? "completed" : ""}`;
+        item.setAttribute("role", "listitem");
+
+        item.innerHTML = `
+          <div class="habit-left" data-habit="${escapeHtml(habitText)}">
+            <div class="custom-checkbox" aria-label="Toggle habit">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </div>
+            <div class="habit-info">
+              <span class="habit-index">Habit #${idx + 1}</span>
+              <span class="habit-name">${escapeHtml(habitText)}</span>
+            </div>
+          </div>
+          <button class="delete-habit-btn" data-delete-idx="${idx}" title="Delete Habit" aria-label="Delete habit ${escapeHtml(habitText)}">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="3 6 5 6 21 6"></polyline>
+              <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+            </svg>
+          </button>
+        `;
+
+        // Toggle habit on click
+        const leftWrap = item.querySelector(".habit-left");
+        leftWrap.addEventListener("click", () => {
+          toggleHabit(habitText);
+        });
+
+        // Delete habit button
+        const delBtn = item.querySelector(".delete-habit-btn");
+        delBtn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          deleteHabit(idx, habitText);
+        });
+
+        habitsListEl.appendChild(item);
+      });
+
+      updateOverallStats();
+    }
+
+    function toggleHabit(habitText) {
+      if (!appState.daysData[currentSelectedDay]) {
+        appState.daysData[currentSelectedDay] = [];
+      }
+      const dayArr = appState.daysData[currentSelectedDay];
+      const foundIdx = dayArr.indexOf(habitText);
+      const wasAllDoneBefore = dayArr.length === appState.habits.length;
+
+      if (foundIdx > -1) {
+        dayArr.splice(foundIdx, 1);
+      } else {
+        dayArr.push(habitText);
+      }
+
+      saveState();
+      renderDailyHabits();
+
+      // Trigger celebratory confetti if this click made the day 100% complete!
+      if (!wasAllDoneBefore && dayArr.length === appState.habits.length) {
+        triggerConfetti();
+      }
+    }
+
+    function deleteHabit(index, habitText) {
+      openModal(
+        "Remove Habit?",
+        `Are you sure you want to remove <strong>"${escapeHtml(habitText)}"</strong> from your tracker?`,
+        () => {
+          appState.habits.splice(index, 1);
+          // Also clean from completed records
+          for (let d in appState.daysData) {
+            appState.daysData[d] = appState.daysData[d].filter(h => h !== habitText);
+          }
+          saveState();
+          renderDailyHabits();
+        }
+      );
+    }
+
+    // Add New Habit
+    addHabitForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const val = newHabitInput.value.trim();
+      if (!val) return;
+      if (appState.habits.includes(val)) {
+        alert("This habit is already on your list!");
+        return;
+      }
+      appState.habits.push(val);
+      newHabitInput.value = "";
+      saveState();
+      renderDailyHabits();
+    });
+
+    // Navigation buttons
+    prevDayBtn.addEventListener("click", () => {
+      if (currentSelectedDay > 1) {
+        currentSelectedDay--;
+        renderDailyHabits();
+      }
+    });
+
+    nextDayBtn.addEventListener("click", () => {
+      if (currentSelectedDay < 90) {
+        currentSelectedDay++;
+        renderDailyHabits();
+      }
+    });
+
+    jumpTodayBtn.addEventListener("click", () => {
+      currentSelectedDay = calculateDayOfArc(appState.startDate);
+      renderDailyHabits();
+    });
+
+    markAllDayBtn.addEventListener("click", () => {
+      if (!appState.daysData[currentSelectedDay]) {
+        appState.daysData[currentSelectedDay] = [];
+      }
+      const dayArr = appState.daysData[currentSelectedDay];
+      const isAlreadyAll = dayArr.length === appState.habits.length;
+
+      if (isAlreadyAll) {
+        appState.daysData[currentSelectedDay] = [];
+      } else {
+        appState.daysData[currentSelectedDay] = [...appState.habits];
+        triggerConfetti();
+      }
+      saveState();
+      renderDailyHabits();
+    });
+
+    // --- TAB 2: WORKOUT PLAN IMPLEMENTATION ---
+    const weekdayPills = document.querySelectorAll(".weekday-btn");
+    const currentWorkoutTitle = document.getElementById("currentWorkoutTitle");
+    const currentWorkoutDesc = document.getElementById("currentWorkoutDesc");
+    const exercisesListEl = document.getElementById("exercisesList");
+    const addExerciseForm = document.getElementById("addExerciseForm");
+    const exNameInput = document.getElementById("exNameInput");
+    const exTargetInput = document.getElementById("exTargetInput");
+    const exTipsInput = document.getElementById("exTipsInput");
+    const addExerciseDayName = document.getElementById("addExerciseDayName");
+
+    // Rest Timer variables
+    const restTimerDisplay = document.getElementById("restTimerDisplay");
+    const toggleTimerBtn = document.getElementById("toggleTimerBtn");
+    const resetTimerBtn = document.getElementById("resetTimerBtn");
+
+    function renderWorkoutDay(weekdayKey) {
+      currentSelectedWeekday = weekdayKey;
+      weekdayPills.forEach(p => {
+        const isActive = p.dataset.day === weekdayKey;
+        p.classList.toggle("active", isActive);
+        p.setAttribute("aria-selected", isActive);
+      });
+
+      const plan = appState.workoutPlans[weekdayKey] || DEFAULT_WORKOUT_PLANS[weekdayKey];
+      currentWorkoutTitle.textContent = plan.title;
+      currentWorkoutDesc.textContent = plan.desc;
+      addExerciseDayName.textContent = plan.title.split(" ")[0];
+
+      exercisesListEl.innerHTML = "";
+
+      const completedMap = appState.completedWorkouts[weekdayKey] || [];
+
+      plan.exercises.forEach((exName, index) => {
+        const cleanName = exName.trim();
+        const normKey = cleanName.toLowerCase().replace(/[^a-z0-9]/g, "");
+        const dbInfo = findExerciseInfo(cleanName);
+        const isDone = completedMap.includes(cleanName);
+
+        const card = document.createElement("div");
+        card.className = `exercise-card ${isDone ? "completed" : ""}`;
+
+        // YouTube search tutorial link
+        const ytQuery = encodeURIComponent(`how to do ${cleanName} exercise form`);
+        const ytLink = `https://www.youtube.com/results?search_query=${ytQuery}`;
+
+        card.innerHTML = `
+          <div class="exercise-main-row">
+            <div class="exercise-left" data-ex="${escapeHtml(cleanName)}">
+              <div class="custom-checkbox" aria-label="Mark exercise done">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+              </div>
+              <div class="exercise-title-group">
+                <span class="exercise-name">${escapeHtml(cleanName)}</span>
+                <div class="exercise-meta">
+                  <span class="meta-tag">${escapeHtml(dbInfo.target)}</span>
+                  <span style="color: var(--text-subtle);">•</span>
+                  <span style="color: var(--text-muted); font-weight: 500;">${escapeHtml(dbInfo.reps)}</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="exercise-actions">
+              <button class="btn-action-small how-to-btn" data-idx="${index}">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                How to
+              </button>
+
+              <a href="${ytLink}" target="_blank" rel="noopener noreferrer" class="btn-action-small video-btn" title="Watch tutorial on YouTube">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                Watch Video
+              </a>
+
+              <button class="delete-habit-btn delete-ex-btn" title="Remove exercise" aria-label="Remove exercise ${escapeHtml(cleanName)}">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Expandable Step-by-Step Form Tips -->
+          <div class="exercise-details" id="exDetails-${index}">
+            <div class="form-tip-box">
+              <strong>Step-by-step Execution:</strong>
+              <p style="margin-top: 4px;">${escapeHtml(dbInfo.tips)}</p>
+            </div>
+          </div>
+        `;
+
+        // Toggle exercise checkbox
+        const leftWrap = card.querySelector(".exercise-left");
+        leftWrap.addEventListener("click", () => {
+          toggleWorkoutExercise(cleanName);
+        });
+
+        // How to expand toggle
+        const howToBtn = card.querySelector(".how-to-btn");
+        const detailsEl = card.querySelector(`#exDetails-${index}`);
+        howToBtn.addEventListener("click", () => {
+          detailsEl.classList.toggle("open");
+          howToBtn.classList.toggle("active", detailsEl.classList.contains("open"));
+        });
+
+        // Delete exercise button
+        const delBtn = card.querySelector(".delete-ex-btn");
+        delBtn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          deleteExercise(index, cleanName);
+        });
+
+        exercisesListEl.appendChild(card);
+      });
+    }
+
+    function findExerciseInfo(name) {
+      const lower = name.toLowerCase().trim();
+      for (let k in EXERCISE_DATABASE) {
+        if (lower.includes(k) || k.includes(lower)) {
+          return EXERCISE_DATABASE[k];
+        }
+      }
+      return {
+        tips: "Execute with strict form, controlled cadence (2s eccentric, 1s concentric), and full range of motion. Breathe steadily throughout the movement.",
+        reps: "3 sets × 12-15 reps",
+        target: "Full Body Focus"
+      };
+    }
+
+    function toggleWorkoutExercise(exName) {
+      if (!appState.completedWorkouts[currentSelectedWeekday]) {
+        appState.completedWorkouts[currentSelectedWeekday] = [];
+      }
+      const arr = appState.completedWorkouts[currentSelectedWeekday];
+      const idx = arr.indexOf(exName);
+      if (idx > -1) {
+        arr.splice(idx, 1);
+      } else {
+        arr.push(exName);
+      }
+      saveState();
+      renderWorkoutDay(currentSelectedWeekday);
+    }
+
+    function deleteExercise(index, exName) {
+      openModal(
+        "Remove Exercise?",
+        `Remove <strong>"${escapeHtml(exName)}"</strong> from ${appState.workoutPlans[currentSelectedWeekday].title}?`,
+        () => {
+          appState.workoutPlans[currentSelectedWeekday].exercises.splice(index, 1);
+          if (appState.completedWorkouts[currentSelectedWeekday]) {
+            appState.completedWorkouts[currentSelectedWeekday] = appState.completedWorkouts[currentSelectedWeekday].filter(e => e !== exName);
+          }
+          saveState();
+          renderWorkoutDay(currentSelectedWeekday);
+        }
+      );
+    }
+
+    weekdayPills.forEach(pill => {
+      pill.addEventListener("click", () => {
+        renderWorkoutDay(pill.dataset.day);
+      });
+    });
+
+    // Add Custom Exercise Form
+    addExerciseForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const name = exNameInput.value.trim();
+      const target = exTargetInput.value.trim();
+      const tips = exTipsInput.value.trim();
+      if (!name) return;
+
+      if (!appState.workoutPlans[currentSelectedWeekday]) {
+        appState.workoutPlans[currentSelectedWeekday] = JSON.parse(JSON.stringify(DEFAULT_WORKOUT_PLANS[currentSelectedWeekday]));
+      }
+
+      appState.workoutPlans[currentSelectedWeekday].exercises.push(name);
+
+      if (tips || target) {
+        EXERCISE_DATABASE[name.toLowerCase()] = {
+          tips: tips || "Maintain smooth form and controlled breathing.",
+          reps: target || "3 sets × 12 reps",
+          target: "Custom Focus"
+        };
+      }
+
+      exNameInput.value = "";
+      exTargetInput.value = "";
+      exTipsInput.value = "";
+      saveState();
+      renderWorkoutDay(currentSelectedWeekday);
+    });
+
+    // Preset Buttons (Run/Walk, Yoga, Stretching, Cardio)
+    document.querySelectorAll(".preset-chip").forEach(chip => {
+      chip.addEventListener("click", () => {
+        const type = chip.dataset.preset;
+        let presetExercises = [];
+        if (type === "runwalk") {
+          presetExercises = ["30-45 Min Run or Walk (Zone 2 Base)", "Warm-up dynamic leg swings", "Post-walk calf & hamstring stretch"];
+        } else if (type === "yoga") {
+          presetExercises = ["20 Min Flow: Downward dog to Cobra", "Pigeon Pose hip opener (2 mins/side)", "Warrior II and child's pose decompression"];
+        } else if (type === "stretching") {
+          presetExercises = ["Standing hamstring stretch (60s)", "World's Greatest Stretch (5 reps/side)", "Doorway chest opener & shoulder hang (60s)"];
+        } else if (type === "cardio") {
+          presetExercises = ["High Knees Sprint (4 × 30s)", "Burpees to Box Step (4 × 12 reps)", "Jump rope intervals (5 mins)"];
+        }
+
+        if (presetExercises.length > 0) {
+          appState.workoutPlans[currentSelectedWeekday].exercises.push(...presetExercises);
+          saveState();
+          renderWorkoutDay(currentSelectedWeekday);
+        }
+      });
+    });
+
+    // --- REST TIMER & STOPWATCH ---
+    function formatTime(sec) {
+      const m = Math.floor(sec / 60);
+      const s = sec % 60;
+      return `${m < 10 ? "0" : ""}${m}:${s < 10 ? "0" : ""}${s}`;
+    }
+
+    function updateTimerDisplay() {
+      restTimerDisplay.textContent = formatTime(restTimerSeconds);
+    }
+
+    toggleTimerBtn.addEventListener("click", () => {
+      if (isTimerRunning) {
+        clearInterval(restTimerInterval);
+        isTimerRunning = false;
+        toggleTimerBtn.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>`;
+      } else {
+        isTimerRunning = true;
+        toggleTimerBtn.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>`;
+        restTimerInterval = setInterval(() => {
+          if (restTimerSeconds > 0) {
+            restTimerSeconds--;
+            updateTimerDisplay();
+          } else {
+            clearInterval(restTimerInterval);
+            isTimerRunning = false;
+            toggleTimerBtn.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>`;
+            // Visual alert
+            restTimerDisplay.style.color = "var(--accent-warm)";
+            setTimeout(() => {
+              restTimerDisplay.style.color = "var(--ice-300)";
+              restTimerSeconds = 45;
+              updateTimerDisplay();
+            }, 3000);
+          }
+        }, 1000);
+      }
+    });
+
+    resetTimerBtn.addEventListener("click", () => {
+      clearInterval(restTimerInterval);
+      isTimerRunning = false;
+      restTimerSeconds = 45;
+      updateTimerDisplay();
+      toggleTimerBtn.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>`;
+    });
+
+    // --- TAB 3: 90-DAY PROGRESS GRID ---
+    const daysGridEl = document.getElementById("daysGrid");
+    const startDatePicker = document.getElementById("startDatePicker");
+    const resetProgressBtn = document.getElementById("resetProgressBtn");
+    const exportDataBtn = document.getElementById("exportDataBtn");
+
+    function renderDaysGrid() {
+      daysGridEl.innerHTML = "";
+      const activeDay = calculateDayOfArc(appState.startDate);
+      const totalHabits = appState.habits.length;
+
+      for (let day = 1; day <= 90; day++) {
+        const completed = appState.daysData[day] || [];
+        const count = completed.length;
+        const pct = totalHabits === 0 ? 0 : Math.round((count / totalHabits) * 100);
+
+        let statusClass = "status-empty";
+        if (pct === 100) {
+          statusClass = "status-full";
+        } else if (pct >= 50) {
+          statusClass = "status-mid";
+        } else if (pct > 0) {
+          statusClass = "status-low";
+        }
+
+        const isCurrent = day === activeDay;
+        const cell = document.createElement("button");
+        cell.className = `day-cell ${statusClass} ${isCurrent ? "current-day-ring" : ""}`;
+        cell.setAttribute("role", "gridcell");
+        cell.setAttribute("aria-label", `Day ${day}: ${pct}% completed`);
+        cell.title = `Day ${day} (${getDateForDay(appState.startDate, day)}) - ${pct}% done (${count}/${totalHabits} habits)`;
+
+        cell.innerHTML = `
+          ${pct === 100 ? `<span class="cell-star" aria-hidden="true">★</span>` : ""}
+          <span class="cell-number">${day}</span>
+          <span class="cell-pct">${pct}%</span>
+        `;
+
+        cell.addEventListener("click", () => {
+          currentSelectedDay = day;
+          switchTab("tab-habits");
+          renderDailyHabits();
+          window.scrollTo({ top: 300, behavior: 'smooth' });
+        });
+
+        daysGridEl.appendChild(cell);
+      }
+    }
+
+    startDatePicker.value = appState.startDate;
+    startDatePicker.addEventListener("change", (e) => {
+      appState.startDate = e.target.value;
+      saveState();
+      renderDaysGrid();
+      renderDailyHabits();
+      updateOverallStats();
+    });
+
+    // Reset Progress with 2-step confirmation modal
+    resetProgressBtn.addEventListener("click", () => {
+      openModal(
+        "Reset All 90-Day Progress?",
+        "Are you absolutely certain? This will wipe all completed habits and reset your streak. Custom habits and workout edits will be kept.",
+        () => {
+          appState.daysData = {};
+          appState.completedWorkouts = {};
+          saveState();
+          renderDailyHabits();
+          renderDaysGrid();
+          updateOverallStats();
+        }
+      );
+    });
+
+    // Export progress JSON
+    exportDataBtn.addEventListener("click", () => {
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(appState, null, 2));
+      const downloadAnchor = document.createElement("a");
+      downloadAnchor.setAttribute("href", dataStr);
+      downloadAnchor.setAttribute("download", `winter_arc_progress_${getTodayISO()}.json`);
+      document.body.appendChild(downloadAnchor);
+      downloadAnchor.click();
+      downloadAnchor.remove();
+    });
+
+    // --- REUSABLE MODAL UTILITY ---
+    const appModal = document.getElementById("appModal");
+    const modalTitle = document.getElementById("modalTitle");
+    const modalBody = document.getElementById("modalBody");
+    const modalCloseBtn = document.getElementById("modalCloseBtn");
+    const modalCancelBtn = document.getElementById("modalCancelBtn");
+    const modalConfirmBtn = document.getElementById("modalConfirmBtn");
+    let onModalConfirmCallback = null;
+
+    function openModal(title, htmlContent, onConfirm) {
+      modalTitle.textContent = title;
+      modalBody.innerHTML = htmlContent;
+      onModalConfirmCallback = onConfirm;
+      appModal.classList.add("open");
+      appModal.setAttribute("aria-hidden", "false");
+    }
+
+    function closeModal() {
+      appModal.classList.remove("open");
+      appModal.setAttribute("aria-hidden", "true");
+      onModalConfirmCallback = null;
+    }
+
+    modalCloseBtn.addEventListener("click", closeModal);
+    modalCancelBtn.addEventListener("click", closeModal);
+    modalConfirmBtn.addEventListener("click", () => {
+      if (typeof onModalConfirmCallback === "function") {
+        onModalConfirmCallback();
+      }
+      closeModal();
+    });
+    appModal.addEventListener("click", (e) => {
+      if (e.target === appModal) closeModal();
+    });
+
+    // Escape helper
+    function escapeHtml(str) {
+      if (!str) return "";
+      return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    // --- INITIALIZATION ---
+    function init() {
+      applyTheme(appState.theme);
+      toggleSnowBtn.classList.toggle("active", appState.snowEnabled);
+      snowStatusText.textContent = appState.snowEnabled ? "Snow: On" : "Snow: Off";
+
+      currentSelectedDay = calculateDayOfArc(appState.startDate);
+      
+      initSnow();
+      renderSnow();
+
+      renderDailyHabits();
+      renderWorkoutDay("monday");
+      renderDaysGrid();
+      updateOverallStats();
+      updateTimerDisplay();
+    }
+
+    // Run on page ready
+    document.addEventListener("DOMContentLoaded", init);
+  </script>
+</body>
+</html>
